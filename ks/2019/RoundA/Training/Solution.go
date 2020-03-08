@@ -26,16 +26,17 @@ func main() {
 				skills = append(skills, j)
 			}
 			sort.Sort(sort.Reverse(sort.IntSlice(skills)))
-			optimalCase := skills[0] * skills[0]
+			optimalCase := uint64(skills[0]) * uint64(skills[0])
 
-			for i := 0; i < numStudents-(sPerTeam-1); i++ {
-				skill := skills[i]
-				skilDiference := 0
-				for j := 0; j < (sPerTeam - 1); j++ {
-					skilDiference += skill - skills[(i+1)+j]
+			for i := 0; i <= numStudents-sPerTeam; i++ {
+				actualSkill := uint64(skills[i])
+				teamSkill := 0
+				for j := i; j < (i + sPerTeam); j++ {
+					teamSkill += skills[j]
 				}
-				if skilDiference < optimalCase {
-					optimalCase = skilDiference
+				totalSkill := uint64(sPerTeam)*actualSkill - uint64(teamSkill)
+				if totalSkill < optimalCase {
+					optimalCase = totalSkill
 				}
 			}
 			fmt.Printf("Case #%v: %v\n", test+1, optimalCase)
